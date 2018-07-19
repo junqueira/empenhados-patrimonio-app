@@ -49,6 +49,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   public transitionToogle: boolean;
   public logToogle: boolean;
 
+  private extremos;
+
   constructor(private dataService: DataService,
     private alertService: AlertService,
     private utilsService: UtilsService) {
@@ -74,7 +76,7 @@ export class ScatterplotPatrimonioComponent implements OnInit {
 
       this.svg.attr("height", this.width * 0.5);
       if(this.data){
-        this.plotPatrimonio()
+        this.plotPatrimonio();
       }
     })
   }
@@ -85,7 +87,6 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   plotPatrimonio() {
-
     this.estadoAtual = this.dataService.getEstado();
     this.ano = this.dataService.getAno();
     this.cargo = this.dataService.getCargo();
@@ -147,7 +148,18 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   }
 
   private initZ() {
-    this.z = d3.scaleSequential(d3.interpolateViridis).domain([1e6, -1e6]);
+
+    let dominio = this.data
+                      .map((d) => this.calculaRazao(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2));
+    
+    this.extremos = d3.extent(dominio);
+    
+    dominio = dominio.map(d => d+(this.extremos[0]*-1) + 1);
+    dominio = d3.extent(dominio);
+    dominio = dominio.map(d => Math.log10(d).toString())
+
+    console.log(dominio);
+    this.z = d3.scaleSequential(d3.interpolateYlGnBu).domain(dominio);
 
   }
 
@@ -238,7 +250,9 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       .enter().append("circle")
       .attr("cx", (d: any) => this.x(Math.log10(d.patrimonio_eleicao_1)))
       .attr("cy", (d: any) => this.y(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
-      .attr("fill", (d: any) => this.z(d.patrimonio_eleicao_2 - d.patrimonio_eleicao_1))
+      .attr("fill", (d: any) => 
+      this.z(Math.log10(this.calculaRazao(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2)
+                                          +(this.extremos[0]*-1)+1)))
       .attr("opacity", 0.7)
       .attr("r", this.circleRadius);
 
@@ -273,6 +287,8 @@ export class ScatterplotPatrimonioComponent implements OnInit {
   private onClick(): (d, i, n) => void {
     return (d, i, n) => {
       if (this.clickedCircle && this.clickedCircle.d !== d) {
+        console.log(Math.log10(this.calculaRazao(d.patrimonio_eleicao_1, d.patrimonio_eleicao_2)
+                                          +(this.extremos[0]*-1)+1));
         this.clickedCircle.d.isclicked = false;
         let previousCircle = this.clickedCircle.n[this.clickedCircle.i]
         this.standardizeCircle(this.clickedCircle.d, previousCircle);
@@ -519,6 +535,12 @@ export class ScatterplotPatrimonioComponent implements OnInit {
       return cargo
     }
     return this.utilsService.toTitleCase(cargo);
+  }
+
+  private calculaRazao(numero1, numero2){
+    if(numero1 == numero2) return 0;
+    const fator = (numero2 - numero1)/Math.abs(numero2 - numero1);
+    return (Math.max(numero1, numero2)/Math.min(numero1, numero2)) * fator;
   }
 
 }
