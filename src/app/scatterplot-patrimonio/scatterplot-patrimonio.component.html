@@ -4,15 +4,13 @@
     As observações acima da linha pontilhada indicam aumento de patrimônio. Clique em um ponto para obter mais detalhes.
   </p>
   <div class="plot-container">
-
-
     <div class="section">
       <div class="container" fxLayout="row" fxLayoutWrap fxLayoutGap="2%" fxLayoutAlign="center">
-        <div fxFlex="1%" style="transform:translateY(40%);">
+        <div class="container-modo" fxFlex="1%" style="transform:translateY(40%);">
           <mat-form-field class="modo">
-            <mat-select class="select-mode" [ngModel]="modeOption" (ngModelChange)="executaTransicao($event)">
-              <mat-option class="select-mode-option" value="comparativo">Comparativo</mat-option>
-              <mat-option class="select-mode-option" value="variacao">Variação</mat-option>
+            <mat-select [ngModel]="modeOption" (ngModelChange)="executaTransicao($event)">
+              <mat-option value="comparativo">Comparativo</mat-option>
+              <mat-option value="variacao">Variação</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

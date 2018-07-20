@@ -76,23 +76,20 @@
 
 .escala .mat-form-field-underline{
     display: none;
+    padding-left: 20px;
 }
 
 .escala .mat-form-field-wrapper {
     padding: 0 !important;
 }
 
-.yLabel {
-    font-size: .8em;
-    -webkit-transform: rotate(-90deg);
+.container-modo .mat-form-field-infix {
+    transform: rotate(-90deg);
+    padding-bottom: 45%;
 }
 
-.select-mode{
-    -webkit-transform: rotate(-90deg);
-}
-
-.select-mode-option{
-    -webkit-transform: rotate(0deg);
+.container-modo mat-input-flex mat-form-field-flex {
+    transform: rotate(-90deg);
 }
 
 .modo .mat-form-field-underline{
