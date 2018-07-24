@@ -1,24 +1,22 @@
-import { Component} from '@angular/core';
+import { Component } from "@angular/core";
+import { HomeComponent } from "./home/home.component";
 
-import { AboutComponent } from './about/about.component';
-
-import { Router } from '@angular/router';
+// import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = 'Capital dos Candidatos';
+  title = "Capital dos Candidatos";
+  // private router: Router
 
-  constructor(private router: Router) { }
+  constructor() {}
 
-  openAbout() {
-    this.router.navigate(['/sobre']);
-  }
-
+  // openAbout() {
+  //   this.router.navigate(["/sobre"]);
+  // }
 }
 
-export class matToolbarRow { }
-
+export class matToolbarRow {}
