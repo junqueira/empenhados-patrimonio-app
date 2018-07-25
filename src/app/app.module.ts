@@ -40,7 +40,7 @@ import { FactSheetComponent } from "./fact-sheet/fact-sheet.component";
 import { AboutComponent } from "./about/about.component";
 import { HomeComponent } from "./home/home.component";
 
-// import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -75,9 +75,8 @@ import { HomeComponent } from "./home/home.component";
     MatSlideToggleModule,
     MatListModule,
     HttpClientModule,
-    MatDialogModule
-    // ,
-    // AppRoutingModule
+    MatDialogModule,
+    AppRoutingModule
   ],
   providers: [
     HttpClientModule,
